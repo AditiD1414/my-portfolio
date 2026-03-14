@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditi Das — E-Learning Designer</title>
+<meta name="description" content="E-learning developer specialising in engineering, water technology, and interactive 3D simulations. Hamburg, Germany.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#faf8f5;
+  --bg2:#f3f0eb;
+  --card:#ffffff;
+  --border:#e8e3da;
+  --ink:#1a1714;
+  --ink2:#3d3830;
+  --muted:#8a8070;
+  --faint:#ccc8be;
+  /* Project 01 — Blush Rose */
+  --rose:#c97a8e;
+  --rose-lt:#f5e6ea;
+  --rose-md:#e8b8c4;
+  --rose-bg:#fef4f6;
+  --rose-d:rgba(201,122,142,0.14);
+  /* Project 02 — Sage Green */
+  --sage:#6b9e7f;
+  --sage-lt:#e4f0e8;
+  --sage-md:#afd0ba;
+  --sage-bg:#f3f9f5;
+  --sage-d:rgba(107,158,127,0.14);
+  /* Project 03 — Soft Lavender */
+  --lav:#8b7ec8;
+  --lav-lt:#ede9f8;
+  --lav-md:#c3b9e8;
+  --lav-bg:#f6f4fb;
+  --lav-d:rgba(139,126,200,0.14);
+  /* Project 04 — Warm Ochre */
+  --ochre:#c49a3a;
+  --ochre-lt:#f5edda;
+  --ochre-md:#e5ca82;
+  --ochre-bg:#fdf8ee;
+  --ochre-d:rgba(196,154,58,0.14);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);}
+@media(max-width:900px){html,body{height:auto;overflow:auto;}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 2.5rem;
+  background:rgba(250,248,245,0);
+  border-bottom:1px solid transparent;
+  transition:background 0.3s ease, border-color 0.3s ease;
+  pointer-events:none;
+}
+nav.scrolled{
+  background:rgba(250,248,245,0.97);
+  border-color:var(--border);
+  backdrop-filter:blur(8px);
+}
+nav *{pointer-events:all;}
+.logo{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--ink);}
+/* In detail view, show project counter instead of logo text */
+body.in-detail .logo{visibility:hidden;pointer-events:none;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-title{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+.nav-counter{font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;display:none;}
+.nav-counter em{font-style:normal;}
+.contact-btn{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border:1.5px solid var(--border);padding:0.32rem 0.9rem;border-radius:20px;background:none;cursor:pointer;font-family:var(--sans);transition:all 0.2s;}
+.contact-btn:hover{border-color:var(--ink2);color:var(--ink2);}
+
+/* VIEWS */
+.view{position:fixed;inset:0;transition:opacity 0.4s ease, transform 0.4s ease;}
+.view.hidden{opacity:0;pointer-events:none;}
+#view-grid{overflow-y:auto;overflow-x:hidden;}
+#view-detail{overflow:hidden;}
+@media(max-width:900px){.view{position:absolute;}#view-detail{overflow-y:auto;}}
+
+/* LANDING */
+.grid-page{min-height:100vh;padding:6.5rem 2.5rem 3rem;}
+.grid-hero{margin-bottom:2.5rem;}
+.grid-eyebrow{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;}
+.grid-heading{font-family:var(--serif);font-size:3rem;font-style:italic;line-height:1.1;margin-bottom:0.6rem;}
+.grid-sub{font-size:0.88rem;color:var(--muted);font-weight:300;line-height:1.7;max-width:500px;}
+
+/* Featured hero card */
+.featured-row{margin-bottom:1.25rem;}
+.pcard-featured{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;overflow:hidden;cursor:pointer;
+  transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  min-height:280px;
+}
+.pcard-featured:hover{transform:translateY(-3px);box-shadow:0 18px 52px rgba(0,0,0,0.08);border-color:var(--ochre-md);}
+
+/* Secondary 3-column row */
+.cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+
+/* Standard card */
+.pcard{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:18px;overflow:hidden;cursor:pointer;
+  transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.pcard.c-rose:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.09);border-color:var(--rose-md);}
+.pcard.c-sage:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.09);border-color:var(--sage-md);}
+.pcard.c-lav:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.09);border-color:var(--lav-md);}
+
+/* VISUAL PANEL */
+.pcard-visual{height:190px;position:relative;overflow:hidden;}
+.pcard-featured .pcard-visual{height:100%;}
+.pcard-visual-bg{position:absolute;inset:0;transition:transform 0.6s ease;}
+.pcard:hover .pcard-visual-bg,.pcard-featured:hover .pcard-visual-bg{transform:scale(1.04);}
+
+.cv-rose{background:linear-gradient(140deg,var(--rose-lt) 0%,#fce8ed 55%,var(--rose-bg) 100%);}
+.cv-sage{background:linear-gradient(140deg,var(--sage-lt) 0%,#d8eddf 55%,var(--sage-bg) 100%);}
+.cv-lav{background:linear-gradient(140deg,var(--lav-lt) 0%,#ddd8f5 55%,var(--lav-bg) 100%);}
+.cv-ochre{background:linear-gradient(140deg,var(--ochre-lt) 0%,#f0e2b0 55%,var(--ochre-bg) 100%);}
+
+/* Blurred orbs */
+.cv-orb{position:absolute;border-radius:50%;filter:blur(40px);opacity:0.5;pointer-events:none;}
+.cv-orb.or1{width:130px;height:130px;top:-20px;right:10px;}
+.cv-orb.or2{width:80px;height:80px;bottom:10px;left:20px;opacity:0.3;}
+.orb-rose{background:var(--rose-md);}
+.orb-sage{background:var(--sage-md);}
+.orb-lav{background:var(--lav-md);}
+.orb-ochre{background:var(--ochre-md);}
+
+/* Geo rings */
+.cg{position:absolute;border-radius:50%;opacity:0.4;border:1.5px solid;}
+.cg1{width:180px;height:180px;top:-40px;right:-40px;}
+.cg2{width:70px;height:70px;bottom:24px;right:28px;border-radius:12px;transform:rotate(18deg);}
+.cg3{width:38px;height:38px;top:30px;left:24px;border-radius:0;transform:rotate(45deg);}
+.cg-rose{border-color:var(--rose);}
+.cg-sage{border-color:var(--sage);}
+.cg-lav{border-color:var(--lav);}
+.cg-ochre{border-color:var(--ochre);}
+
+/* Large number watermark on featured */
+.cv-number{position:absolute;bottom:-14px;left:18px;font-family:var(--serif);font-size:10rem;font-style:italic;line-height:1;opacity:0.1;color:var(--ink);user-select:none;pointer-events:none;}
+
+/* Badges */
+.pcard-badge{position:absolute;top:1rem;left:1rem;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.22rem 0.6rem;border-radius:20px;border:1.5px solid;background:rgba(255,255,255,0.8);backdrop-filter:blur(6px);}
+.pb-rose{color:var(--rose);border-color:var(--rose-md);}
+.pb-sage{color:var(--sage);border-color:var(--sage-md);}
+.pb-lav{color:var(--lav);border-color:var(--lav-md);}
+.pb-ochre{color:var(--ochre);border-color:var(--ochre-md);}
+
+.pcard-free{position:absolute;top:1rem;right:1rem;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.22rem 0.62rem;border-radius:20px;border:1.5px solid;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);font-weight:500;font-family:var(--sans);}
+.pf-ochre{color:var(--ochre);border-color:var(--ochre-md);}
+.pf-lav{color:var(--lav);border-color:var(--lav-md);}
+
+/* CARD BODY */
+.pcard-body{padding:1.3rem 1.4rem 1.5rem;}
+.pcard-featured .pcard-body{padding:2rem;display:flex;flex-direction:column;justify-content:center;}
+
+.pcard-feat-pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.22rem 0.62rem;border-radius:20px;border:1.5px solid;margin-bottom:0.8rem;width:fit-content;font-weight:500;color:var(--ochre);border-color:var(--ochre-md);background:var(--ochre-lt);}
+
+.pcard-tag{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.45rem;font-weight:500;}
+.ptag-rose{color:var(--rose);}
+.ptag-sage{color:var(--sage);}
+.ptag-lav{color:var(--lav);}
+.ptag-ochre{color:var(--ochre);}
+
+.pcard-title{font-family:var(--serif);font-size:1.25rem;font-style:italic;line-height:1.25;margin-bottom:0.5rem;}
+.pcard-featured .pcard-title{font-size:1.75rem;margin-bottom:0.65rem;}
+
+.pcard-desc{font-size:0.78rem;color:var(--muted);line-height:1.7;font-weight:300;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pcard-featured .pcard-desc{-webkit-line-clamp:3;margin-bottom:1.2rem;}
+
+.pcard-tools{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:1.1rem;}
+.pchip{font-size:0.62rem;padding:0.18rem 0.52rem;border-radius:4px;border:1.5px solid;}
+.pc-rose{color:var(--rose);border-color:var(--rose-md);background:var(--rose-lt);}
+.pc-sage{color:var(--sage);border-color:var(--sage-md);background:var(--sage-lt);}
+.pc-lav{color:var(--lav);border-color:var(--lav-md);background:var(--lav-lt);}
+.pc-ochre{color:var(--ochre);border-color:var(--ochre-md);background:var(--ochre-lt);}
+.pc-d{color:var(--muted);border-color:var(--faint);background:var(--bg2);}
+
+/* CTA strip */
+.pcard-cta{display:flex;align-items:center;justify-content:space-between;border-radius:8px;padding:0.62rem 0.9rem;border:1.5px solid;transition:background 0.2s;}
+.cta-rose{border-color:var(--rose-md);background:var(--rose-lt);}
+.cta-sage{border-color:var(--sage-md);background:var(--sage-lt);}
+.cta-lav{border-color:var(--lav-md);background:var(--lav-lt);}
+.cta-ochre{border-color:var(--ochre-md);background:var(--ochre-lt);}
+.pcard:hover .cta-rose,.pcard-featured:hover .cta-ochre{background:var(--rose-bg);}
+.pcard:hover .cta-sage{background:var(--sage-bg);}
+.pcard:hover .cta-lav{background:var(--lav-bg);}
+.pcard-featured:hover .cta-ochre{background:var(--ochre-bg);}
+.pcard-cta-label{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink2);}
+.pcard-cta-arrow{font-size:0.8rem;color:var(--muted);transition:transform 0.2s;}
+.pcard:hover .pcard-cta-arrow,.pcard-featured:hover .pcard-cta-arrow{transform:translateX(4px);}
+
+/* DETAIL VIEW */
+#view-detail{background:var(--bg);}
+.detail-spotlight{position:absolute;inset:0;opacity:0;transition:opacity 0.6s ease;pointer-events:none;z-index:0;}
+.detail-spotlight.show{opacity:1;}
+.sp-rose  {background:radial-gradient(ellipse 55% 70% at 35% 55%,rgba(201,122,142,0.10) 0%,transparent 70%);}
+.sp-sage  {background:radial-gradient(ellipse 55% 70% at 35% 55%,rgba(107,158,127,0.10) 0%,transparent 70%);}
+.sp-lav   {background:radial-gradient(ellipse 55% 70% at 35% 55%,rgba(139,126,200,0.10) 0%,transparent 70%);}
+.sp-ochre {background:radial-gradient(ellipse 55% 70% at 35% 55%,rgba(196,154,58,0.10) 0%,transparent 70%);}
+
+.detail-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:0;width:100%;max-width:1100px;margin:0 auto;padding:5rem 3rem 2.5rem;align-items:start;height:100vh;}
+
+.back-btn{position:fixed;top:1.1rem;left:2.5rem;z-index:150;background:none;border:none;color:var(--muted);cursor:pointer;font-family:var(--sans);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;display:none;align-items:center;gap:0.4rem;padding:0.35rem 0;transition:color 0.2s;}
+.back-btn:hover{color:var(--ink);}
+/* Hide logo when back button is visible so they never overlap */
+body.in-detail .logo{visibility:hidden;pointer-events:none;}
+
+.det-arr{position:fixed;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.9);border:1.5px solid var(--border);color:var(--muted);cursor:pointer;z-index:150;display:none;align-items:center;justify-content:center;font-size:0.9rem;transition:all 0.2s;backdrop-filter:blur(4px);box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+.det-arr:hover{color:var(--ink);border-color:var(--ink2);}
+.det-arr:disabled{opacity:0.25;cursor:default;}
+#det-prev{left:1.25rem;}
+#det-next{right:1.25rem;}
+
+/* Visual panel */
+.detail-visual{position:relative;height:440px;display:flex;align-items:flex-end;padding:1.5rem;}
+.dv-bg{position:absolute;inset:0;border-radius:20px;overflow:hidden;isolation:isolate;}
+.dv-fill{width:100%;height:100%;transition:transform 0.7s ease;}
+.detail-visual:hover .dv-fill{transform:scale(1.03);}
+.dv-rose{background:linear-gradient(140deg,var(--rose-lt),#fce0e7,var(--rose-bg));}
+.dv-sage{background:linear-gradient(140deg,var(--sage-lt),#cfe8d8,var(--sage-bg));}
+.dv-lav{background:linear-gradient(140deg,var(--lav-lt),#d8d1f2,var(--lav-bg));}
+.dv-ochre{background:linear-gradient(140deg,var(--ochre-lt),#edd98a,var(--ochre-bg));}
+
+.dv-orb{position:absolute;border-radius:50%;filter:blur(55px);pointer-events:none;}
+.dvo1{width:220px;height:220px;top:-40px;right:-30px;opacity:0.45;}
+.dvo2{width:130px;height:130px;bottom:20px;left:10px;opacity:0.3;}
+.dvo-rose{background:var(--rose-md);}
+.dvo-sage{background:var(--sage-md);}
+.dvo-lav{background:var(--lav-md);}
+.dvo-ochre{background:var(--ochre-md);}
+
+.dv-geo{position:absolute;border-radius:50%;opacity:0;border:1.5px solid;}
+.dg1{width:270px;height:270px;top:-50px;right:-50px;}
+.dg2{width:100px;height:100px;bottom:50px;right:40px;border-radius:12px;transform:rotate(15deg);}
+.dg3{width:55px;height:55px;top:70px;left:28px;border-radius:0;transform:rotate(45deg);}
+.dg-rose{border-color:var(--rose);}
+.dg-sage{border-color:var(--sage);}
+.dg-lav{border-color:var(--lav);}
+.dg-ochre{border-color:var(--ochre);}
+
+.dv-chips{position:absolute;top:1.5rem;left:1.5rem;display:flex;flex-direction:row;flex-wrap:wrap;gap:0.35rem;}
+.dvc{font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.24rem 0.6rem;border-radius:20px;border:1.5px solid;background:rgba(255,255,255,0.78);backdrop-filter:blur(8px);display:inline;width:fit-content;}
+.dvc-rose{color:var(--rose);border-color:var(--rose-md);}
+.dvc-sage{color:var(--sage);border-color:var(--sage-md);}
+.dvc-lav{color:var(--lav);border-color:var(--lav-md);}
+.dvc-ochre{color:var(--ochre);border-color:var(--ochre-md);}
+.dvc-d{color:var(--muted);border-color:var(--faint);}
+
+.dv-bottom{position:relative;z-index:2;width:100%;}
+.dv-type{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem;}
+.dv-free{display:none;align-items:center;gap:0.3rem;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;padding:0.28rem 0.68rem;border-radius:20px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:opacity 0.2s;backdrop-filter:blur(6px);background:rgba(255,255,255,0.85);border:1.5px solid;}
+.dv-free:hover{opacity:0.85;}
+
+/* Content */
+.detail-content{padding:0 0 3rem 3.5rem;overflow-y:auto;max-height:calc(100vh - 7rem);}
+.dc-idx{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.1rem;display:flex;align-items:center;gap:0.65rem;}
+.dc-idx::before{content:'';width:24px;height:1px;background:var(--faint);}
+.dc-title{font-family:var(--serif);font-size:2.4rem;line-height:1.15;font-style:italic;margin-bottom:0.85rem;}
+.dc-desc{font-size:0.87rem;color:var(--muted);line-height:1.82;font-weight:300;margin-bottom:1rem;}
+.dc-outcome{font-size:0.78rem;padding:0.65rem 0.9rem;border-radius:0 8px 8px 0;margin-bottom:1.4rem;line-height:1.55;border-left:2.5px solid;}
+.do-rose{color:var(--rose);background:var(--rose-d);border-color:var(--rose);}
+.do-sage{color:var(--sage);background:var(--sage-d);border-color:var(--sage);}
+.do-lav{color:var(--lav);background:var(--lav-d);border-color:var(--lav);}
+.do-ochre{color:var(--ochre);background:var(--ochre-d);border-color:var(--ochre);}
+
+.dc-info{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;}
+.di-row{display:flex;flex-direction:column;gap:0.22rem;}
+.di-label{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+.di-value{font-size:0.82rem;color:var(--ink2);line-height:1.55;}
+.di-features{display:flex;flex-direction:column;gap:0.18rem;}
+.di-feat{font-size:0.8rem;color:var(--ink2);display:flex;align-items:baseline;gap:0.45rem;line-height:1.5;}
+.di-feat::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:0.42em;}
+.di-feat-rose::before{background:var(--rose);}
+.di-feat-sage::before{background:var(--sage);}
+.di-feat-lav::before{background:var(--lav);}
+.di-feat-ochre::before{background:var(--ochre);}
+
+.dc-actions{display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;margin-top:0.5rem;}
+.abtn{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;padding:0.28rem 0.68rem;border-radius:20px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:opacity 0.2s;backdrop-filter:blur(6px);background:rgba(255,255,255,0.85);border:1.5px solid;color:var(--ink);}
+.abtn:hover{opacity:0.85;}
+
+
+
+.det-track{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);display:none;gap:0.45rem;align-items:center;z-index:150;}
+.det-dot{width:5px;height:5px;border-radius:50%;background:var(--faint);cursor:pointer;transition:all 0.3s;}
+.det-dot.a{width:20px;border-radius:3px;}
+.dd-rose.a{background:var(--rose);}
+.dd-sage.a{background:var(--sage);}
+.dd-lav.a{background:var(--lav);}
+.dd-ochre.a{background:var(--ochre);}
+
+/* FEEDBACK */
+.fb-overlay{position:fixed;inset:0;z-index:300;background:rgba(26,23,20,0.6);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.fb-overlay.show{display:flex;}
+.fb-panel{background:var(--card);border:1.5px solid var(--border);border-radius:16px;width:100%;max-width:540px;max-height:82vh;overflow-y:auto;padding:2rem;}
+.fb-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;}
+.fb-proj{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.3rem;}
+.fb-ttl{font-family:var(--serif);font-size:1.25rem;font-style:italic;}
+.fb-close{background:none;border:1.5px solid var(--border);color:var(--muted);cursor:pointer;border-radius:6px;padding:0.3rem 0.65rem;font-size:0.78rem;transition:all 0.2s;}
+.fb-close:hover{border-color:var(--ink2);color:var(--ink2);}
+.clist{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.25rem;}
+.ci{background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:0.85rem 1rem;}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;}
+.cn{font-size:0.8rem;font-weight:500;}
+.ctxt{font-size:0.8rem;color:var(--muted);line-height:1.6;}
+.cdt{font-size:0.65rem;color:var(--faint);margin-top:0.2rem;}
+.nc{font-size:0.8rem;color:var(--faint);font-style:italic;margin-bottom:1rem;}
+.add-fb{background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:1.1rem;}
+.add-fb-hd{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;}
+.sr{display:flex;gap:0.3rem;margin-bottom:0.6rem;}
+.sr span{cursor:pointer;font-size:1.3rem;color:var(--faint);line-height:1;transition:color 0.1s;}
+.fi{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:0.58rem 0.78rem;font-family:var(--sans);font-size:0.8rem;color:var(--ink);outline:none;margin-bottom:0.55rem;transition:border-color 0.2s;}
+.fi:focus{border-color:var(--muted);}
+textarea.fi{resize:vertical;min-height:78px;}
+.fb-post{background:var(--ink);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:6px;font-family:var(--sans);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;}
+
+/* DOWNLOAD */
+.dl-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,0.6);backdrop-filter:blur(12px);z-index:400;align-items:center;justify-content:center;}
+.dl-overlay.show{display:flex;}
+.dl-box{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:2rem;max-width:420px;width:90%;position:relative;}
+.dl-x{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;}
+.dl-t{font-family:var(--serif);font-size:1.4rem;font-style:italic;margin-bottom:0.45rem;}
+.dl-s{font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:0.9rem;}
+.dl-n{font-size:0.74rem;line-height:1.6;border-left:2.5px solid;border-radius:0 5px 5px 0;padding:0.7rem;margin-bottom:1.15rem;}
+.dl-btn{width:100%;background:var(--ink);color:#fff;border:none;padding:0.75rem;font-family:var(--sans);font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:6px;font-weight:500;}
+
+/* EMBED */
+.embed-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,0.6);backdrop-filter:blur(12px);z-index:400;align-items:center;justify-content:center;padding:1rem;}
+.embed-overlay.show{display:flex;}
+.embed-box{background:var(--card);border:1.5px solid var(--border);border-radius:14px;width:100%;max-width:960px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.embed-hdr{display:flex;align-items:center;justify-content:space-between;padding:0.85rem 1.2rem;border-bottom:1px solid var(--border);}
+.embed-title{font-family:var(--serif);font-size:1rem;font-style:italic;}
+.embed-close{background:none;border:1.5px solid var(--border);color:var(--muted);cursor:pointer;border-radius:6px;padding:0.28rem 0.6rem;font-size:0.78rem;}
+.embed-frame{flex:1;min-height:500px;background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.embed-frame iframe{width:100%;height:100%;border:none;min-height:600px;}
+.embed-ph{text-align:center;color:var(--muted);padding:2rem;}
+.embed-ph p{font-size:0.84rem;line-height:1.7;max-width:320px;}
+.embed-ph code{font-size:0.73rem;background:var(--bg2);padding:0.2rem 0.5rem;border-radius:4px;color:var(--sage);display:block;margin-top:0.5rem;}
+
+/* CONTACT */
+.contact-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,0.6);backdrop-filter:blur(12px);z-index:300;align-items:center;justify-content:center;padding:1.5rem;}
+.contact-overlay.show{display:flex;}
+.cp{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:2rem;max-width:500px;width:100%;position:relative;}
+.cp-x{position:absolute;top:1rem;right:1rem;background:none;border:1.5px solid var(--border);color:var(--muted);cursor:pointer;border-radius:6px;padding:0.28rem 0.6rem;font-size:0.78rem;}
+.cp-ey{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;}
+.cp-h{font-family:var(--serif);font-size:1.55rem;font-style:normal;line-height:1.2;margin-bottom:0.35rem;}
+.cp-s{font-size:0.82rem;color:var(--muted);margin-bottom:1.4rem;line-height:1.65;font-weight:300;}
+.cp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;}
+.cpf.full{grid-column:1/-1;}
+.cpl{font-size:0.6rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.3rem;}
+.cpi{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:6px;padding:0.58rem 0.78rem;font-family:var(--sans);font-size:0.82rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+.cpi:focus{border-color:var(--muted);}
+textarea.cpi{resize:vertical;min-height:95px;}
+.cp-sub{grid-column:1/-1;background:var(--ink);color:#fff;border:none;padding:0.72rem;font-family:var(--sans);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:6px;margin-top:0.2rem;}
+.cp-ok{display:none;background:var(--sage-lt);border:1.5px solid var(--sage-md);border-radius:5px;padding:0.72rem;font-size:0.8rem;color:var(--sage);text-align:center;margin-top:0.55rem;}
+.cp-li{display:flex;gap:0.55rem;align-items:center;margin-top:0.9rem;padding-top:0.85rem;border-top:1px solid var(--border);font-size:0.76rem;color:var(--muted);}
+.cp-li a{color:var(--ink);text-decoration:underline;text-underline-offset:2px;}
+
+/* FLOATING CHAT */
+
+.fcb{position:fixed;bottom:1.75rem;right:1.75rem;width:58px;height:58px;border-radius:50%;cursor:pointer;border:2px solid var(--ochre-md);overflow:hidden;z-index:200;background:var(--ochre-lt);padding:0;box-shadow:0 4px 20px rgba(196,154,58,0.25);transition:transform 0.2s,box-shadow 0.2s;}
+.fcb::after{content:'Want to know more about me?';position:fixed;bottom:90px;right:1.75rem;background:var(--ink);color:#fff;font-size:0.7rem;font-family:var(--sans);white-space:nowrap;padding:0.4rem 0.8rem;border-radius:8px;opacity:0;pointer-events:none;transition:opacity 0.2s;z-index:201;}
+.fcb:hover::after{opacity:1;}
+.fcb:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(196,154,58,0.35);}
+.fcb img{width:100%;height:100%;object-fit:cover;display:block;}
+.fc-init{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--ochre);}
+
+
+/* CHATBOX */
+.chatbox{position:fixed;bottom:5.5rem;right:1.75rem;width:310px;max-height:440px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;z-index:250;display:none;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,0.10);overflow:hidden;}
+.chatbox.show{display:flex;animation:cu 0.25s ease;}
+@keyframes cu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.chdr{display:flex;align-items:center;gap:0.55rem;padding:0.82rem 0.95rem;background:var(--ochre-lt);border-bottom:1px solid var(--ochre-md);}
+.cav{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:0.9rem;color:var(--ochre);background:var(--ochre-bg);border:2px solid var(--ochre-md);}
+.cav img{width:100%;height:100%;object-fit:cover;}
+.chn{font-size:0.83rem;font-weight:500;color:var(--ink);}
+.chs{font-size:0.63rem;color:var(--ochre);}
+.cx{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.9rem;margin-left:auto;}
+.msgs{flex:1;overflow-y:auto;padding:0.8rem;display:flex;flex-direction:column;gap:0.55rem;}
+.cmsg{max-width:87%;font-size:0.79rem;line-height:1.55;padding:0.5rem 0.72rem;border-radius:10px;}
+.cmsg.bot{background:var(--bg2);color:var(--ink);align-self:flex-start;border-bottom-left-radius:3px;}
+.cmsg.usr{background:var(--ochre-lt);color:var(--ochre);border:1px solid var(--ochre-md);align-self:flex-end;border-bottom-right-radius:3px;font-weight:500;}
+.cqs{padding:0.58rem 0.72rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.28rem;overflow-y:auto;max-height:155px;}
+.cq{background:var(--bg2);border:1.5px solid var(--border);border-radius:5px;padding:0.4rem 0.68rem;font-size:0.72rem;color:var(--ink2);cursor:pointer;text-align:left;font-family:var(--sans);transition:all 0.15s;}
+.cq:hover{border-color:var(--ochre-md);color:var(--ochre);}
+.cft{padding:0.38rem 0.72rem;border-top:1px solid var(--border);text-align:center;}
+.cft button{background:none;border:none;font-size:0.63rem;color:var(--faint);cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;}
+.cft button:hover{color:var(--muted);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .pcard-featured{grid-template-columns:1fr;}
+  .pcard-featured .pcard-visual{height:220px;}
+  .cards-row{grid-template-columns:1fr;}
+  .detail-inner{grid-template-columns:1fr;padding:5rem 1.75rem 8rem;height:auto;min-height:100vh;align-items:start;gap:1.5rem;}
+  .detail-visual{height:260px;}
+  .detail-content{padding:0;}
+  .dc-title{font-size:2rem;}
+  .det-track{bottom:5.5rem;}
+  .fcb{bottom:1.5rem;right:1.5rem;}
+  .chatbox{right:1.5rem;}
+}
+@media(max-width:600px){
+  nav{padding:0.9rem 1.1rem;}
+  .grid-page{padding:4.5rem 1rem 3rem;}
+  .grid-heading{font-size:1.9rem;}
+  .pcard-visual{height:160px;}
+  .pcard-title{font-size:1.2rem;}
+  .detail-inner{padding:4.5rem 1rem 8rem;gap:1.25rem;}
+  .detail-visual{height:200px;}
+  .dc-title{font-size:1.7rem;}
+  .dc-desc{font-size:0.83rem;}
+  .det-arr{display:none !important;}
+  .det-track{bottom:5.25rem;}
+  .fcb{width:50px;height:50px;bottom:1.2rem;right:1.2rem;}
+  .chatbox{width:calc(100vw - 2rem);right:1rem;bottom:5rem;}
+  .cp-grid{grid-template-columns:1fr;}
+  .cpf{grid-column:1 !important;}
+  .fb-panel,.dl-box,.cp{padding:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" id="nav-logo">Aditi Das</div>
+  <div class="nav-right">
+    <span class="nav-counter" id="nav-counter"><em id="nc-num">01</em> / 04</span>
+    <button class="contact-btn" onclick="openContact()">Contact</button>
+  </div>
+</nav>
+
+<button class="back-btn" id="back-btn" onclick="showGrid()">← All projects</button>
+<button class="det-arr" id="det-prev" onclick="detNav(-1)">←</button>
+<button class="det-arr" id="det-next" onclick="detNav(1)">→</button>
+
+<div class="det-track" id="det-track">
+  <div class="det-dot dd-ochre a" onclick="showDetailById('nutrient')"></div>
+  <div class="det-dot dd-rose"    onclick="showDetailById('wwtp')"></div>
+  <div class="det-dot dd-sage"    onclick="showDetailById('riverside')"></div>
+  <div class="det-dot dd-lav"     onclick="showDetailById('fire')"></div>
+</div>
+
+<!-- VIEW 1 — GRID -->
+<div class="view" id="view-grid">
+  <div class="grid-page">
+    <div class="grid-hero">
+      <div class="grid-eyebrow">E-learning design portfolio</div>
+      <p class="grid-sub">Classroom training builds knowledge. Practice makes perfect.My e-learning modules give you the practice ground to apply what you've learned — in simulated conditions that mirror the unpredictability of real work.</p>
+    </div>
+
+    <!-- FEATURED: Nutrient Removal — Ochre (Project 04) -->
+    <div class="featured-row">
+      <div class="pcard-featured" onclick="showDetailById('nutrient')">
+        <div class="pcard-visual">
+          <div class="pcard-visual-bg cv-ochre">
+            <img src="Nutrient removal.png" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;">
+            <div class="cv-orb or1 orb-ochre"></div>
+            <div class="cv-orb or2 orb-ochre"></div>
+            
+          </div>
+          <div class="cv-number">04</div>
+          <span class="pcard-badge pb-ochre">E-learning · AI-assisted</span>
+          <span class="pcard-free pf-ochre">⬇ Free</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-feat-pill">★ Featured project</div>
+          <div class="pcard-title">Treat the Wastewater Right (Part 3)</div>
+          <div class="pcard-desc">Your wastewater treatment plant is running fine. Then an authority warning lands in your inbox — nutrient discharge limits breached, no explanation given. What do you do?</div>
+          <div class="pcard-desc" style="font-size:0.75rem;margin-top:0.4rem;opacity:0.7;"><strong>Time to develop:</strong> 3 Weeks </div>
+          <div class="pcard-tools">
+            <span class="pchip pc-ochre">Claude AI</span>
+            <span class="pchip pc-ochre">Flow AI</span>
+            <span class="pchip pc-d">ChatGPT</span>
+          </div>
+          <div class="pcard-cta cta-ochre">
+            <span class="pcard-cta-label">▶ View Project Details</span>
+            <span class="pcard-cta-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECONDARY ROW: 3 cards -->
+    <div class="cards-row">
+
+      <!-- 01 — Treat the Wastewater Right — Blush Rose -->
+      <div class="pcard c-rose" onclick="showDetailById('wwtp')">
+        <div class="pcard-visual">
+          <div class="pcard-visual-bg cv-rose">
+          <img src="Style 10.png" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;">
+            <div class="cv-orb or1 orb-rose"></div>
+            <div class="cv-orb or2 orb-rose"></div>
+            
+          </div>
+          <span class="pcard-badge pb-rose">E-learning · Articulate Storyline 360</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-tag ptag-rose">01 — Biological Treatment</div>
+          <div class="pcard-title">Treat the Wastewater Right (Part 2) </div>
+          <div class="pcard-desc"> The client approaches you with limited information. How do you design correctly-sized biological treatment units?</div>
+          <div class="pcard-desc" style="font-size:0.75rem;margin-top:0.4rem;opacity:0.7;"><strong>Time to develop:</strong> 8-9 Weeks </div>
+
+          <div class="pcard-tools">
+            <span class="pchip pc-rose">Articulate 360</span>
+            <span class="pchip pc-rose">Blender</span>
+            <span class="pchip pc-d">Gemini AI</span>
+          </div>
+          <div class="pcard-cta cta-rose">
+            <span class="pcard-cta-label">↗ View Project Details</span>
+            <span class="pcard-cta-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- 02 — Riverside WWTP — Lavender -->
+      <div class="pcard c-lav" onclick="showDetailById('riverside')">
+        <div class="pcard-visual">
+          <div class="pcard-visual-bg cv-lav">
+          <img src="Primary.png" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;">
+            <div class="cv-orb or1 orb-lav"></div>
+            <div class="cv-orb or2 orb-lav"></div>
+            
+          </div>
+          <span class="pcard-badge pb-lav">Simulation · HTML</span>
+          <span class="pcard-free pf-lav">⬇ Free</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-tag ptag-lav">02 — Primary Treatment</div>
+          <div class="pcard-title">Treat the Wastewater Right (Part 1)</div>
+          <div class="pcard-desc">The client approaches you with limited information. How do you design correctly-sized Physical treatment units?</div>
+          <div class="pcard-desc" style="font-size:0.75rem;margin-top:0.4rem;opacity:0.7;"><strong>Time to develop:</strong> 9-10 Weeks </div>
+          <div class="pcard-tools">
+            <span class="pchip pc-lav">HTML / CSS / JS</span>
+            <span class="pchip pc-lav">Figma</span>
+            <span class="pchip pc-d">Gemini AI</span>
+          </div>
+          <div class="pcard-cta cta-lav">
+            <span class="pcard-cta-label">▶ View Project Details</span>
+            <span class="pcard-cta-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 — Act Fast to Fire Emergency — Sage Green -->
+      <div class="pcard c-sage" onclick="showDetailById('fire')">
+        <div class="pcard-visual">
+          <div class="pcard-visual-bg cv-sage">
+          <img src="Office-job aid 1.png" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit;">
+            <div class="cv-orb or1 orb-sage"></div>
+            <div class="cv-orb or2 orb-sage"></div>
+            
+          </div>
+          <span class="pcard-badge pb-sage">Job Aid · Canva</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-tag ptag-sage">03 — Fired Emergency Job Aid</div>
+          <div class="pcard-title">Act Fast to Fire Emergency</div>
+          <div class="pcard-desc">Just-in-time job aid. Not every activity needs training</div>
+          <div class="pcard-desc" style="font-size:0.75rem;margin-top:0.4rem;opacity:0.7;"><strong>Time to develop:</strong> 3-4 Hours</div>
+           <div class="pcard-tools">
+            <span class="pchip pc-sage">Canva</span>
+            <span class="pchip pc-d">Gemini AI</span>
+          </div>
+          <div class="pcard-cta cta-sage">
+            <span class="pcard-cta-label">▶ View Project Details</span>
+            <span class="pcard-cta-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- VIEW 2 — DETAIL -->
+<div class="view hidden" id="view-detail">
+  <div class="detail-spotlight sp-rose"  id="sp-0"></div>
+  <div class="detail-spotlight sp-sage"  id="sp-1"></div>
+  <div class="detail-spotlight sp-lav"   id="sp-2"></div>
+  <div class="detail-spotlight sp-ochre" id="sp-3"></div>
+
+  <div class="detail-inner" id="detail-inner">
+    <div class="detail-visual" id="dv-panel">
+      <div class="dv-bg">
+        <div class="dv-fill" id="dv-fill"></div>
+        <img id="dv-img" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;opacity:0.92;">
+        <div class="dv-orb dvo1" id="dvo1"></div>
+        <div class="dv-orb dvo2" id="dvo2"></div>
+        <div class="dv-geo dg1" id="dg1"></div>
+        <div class="dv-geo dg2" id="dg2"></div>
+        <div class="dv-geo dg3" id="dg3"></div>
+      </div>
+      <div class="dv-chips" id="dv-chips"></div>
+      <div class="dv-bottom">
+        <div class="dv-type" id="dv-type"></div>
+        <button class="dv-free" id="dv-free" onclick="openDl()">⬇ Free download</button>
+        <div class="dc-actions" id="dc-actions"></div>
+      </div>
+    </div>
+    <div class="detail-content">
+      <div class="dc-idx"     id="dc-idx"></div>
+      <h2  class="dc-title"  id="dc-title"></h2>
+      <p   class="dc-desc"   id="dc-desc"></p>
+      <div class="dc-outcome" id="dc-outcome"></div>
+      <div class="dc-info"    id="dc-info"></div>
+      <div class="dc-actions" id="dc-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div class="fb-overlay" id="fb-overlay" onclick="if(event.target===this)closeFb()">
+  <div class="fb-panel">
+    <div class="fb-hdr">
+      <div><div class="fb-proj" id="fbp-lbl"></div><div class="fb-ttl">Feedback &amp; ratings</div></div>
+      <button class="fb-close" onclick="closeFb()">✕ Close</button>
+    </div>
+    <div class="clist" id="clist"></div>
+    <div class="add-fb">
+      <div class="add-fb-hd">Leave your feedback</div>
+      <div class="sr" id="fb-stars" data-val="0">
+        <span onclick="setStar(1)" data-n="1">☆</span><span onclick="setStar(2)" data-n="2">☆</span>
+        <span onclick="setStar(3)" data-n="3">☆</span><span onclick="setStar(4)" data-n="4">☆</span>
+        <span onclick="setStar(5)" data-n="5">☆</span>
+      </div>
+      <input class="fi" type="text" id="fb-name" placeholder="Your name (optional)">
+      <textarea class="fi" id="fb-text" placeholder="Share your thoughts…"></textarea>
+      <button class="fb-post" onclick="postComment()">Post feedback</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD -->
+<div class="dl-overlay" id="dl-overlay" onclick="if(event.target===this)closeDl()">
+  <div class="dl-box">
+    <button class="dl-x" onclick="closeDl()">✕</button>
+    <div class="dl-t" id="dl-title">Download</div>
+    <div class="dl-s">A complete HTML-based e-learning module — ready to upload to your LMS.</div>
+    <div class="dl-n" id="dl-note">📦 Instructions: compatible LMS.</div>
+    <!-- TODO: replace alert with your real download URL -->
+  </div>
+</div>
+
+<!-- EMBED -->
+<div class="embed-overlay" id="embed-overlay" onclick="if(event.target===this)closeEmbed()">
+  <div class="embed-box">
+    <div class="embed-hdr">
+      <span class="embed-title" id="embed-title"></span>
+      <button class="embed-close" onclick="closeEmbed()">✕ Close</button>
+    </div>
+    <div class="embed-frame" id="embed-frame"></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-overlay" id="contact-overlay" onclick="if(event.target===this)closeContact()">
+  <div class="cp">
+    <button class="cp-x" onclick="closeContact()">✕ Close</button>
+    <div class="cp-ey">Get in touch</div>
+    <div class="cp-h">Practice-first process training for your team. Let's digitalise it.</div>
+    <p class="cp-s">I'll reply personally immediately (no AI bot reply).</p>
+    <form onsubmit="submitContact(event)">
+      <div class="cp-grid">
+        <div class="cpf"><label class="cpl">Your name</label><input id="cn" class="cpi" type="text" placeholder="Jane Smith" required></div>
+        <div class="cpf"><label class="cpl">Organisation</label><input id="co" class="cpi" type="text" placeholder="Acme GmbH"></div>
+        <div class="cpf full"><label class="cpl">Email</label><input id="ce" class="cpi" type="email" placeholder="jane@acme.com" required></div>
+        <div class="cpf full"><label class="cpl">Project details</label><textarea id="cm" class="cpi" placeholder="Audience, LMS, training goals…"></textarea></div>
+        <button type="submit" class="cp-sub">Send message →</button>
+      </div>
+      <div class="cp-ok" id="cp-ok">Thanks! You will receive my response shortly.</div>
+    </form>
+    <div class="cp-li"><span>Prefer LinkedIn?</span><a href="https://www.linkedin.com/in/aditi-das-elearningdesigner/" target="_blank">Connect with me →</a></div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<button class="fcb" onclick="toggleChat()" aria-label="Ask Me">
+  <div class="fc-init" id="float-avatar">AD</div>
+</button>
+<div class="chatbox" id="chatbox">
+  <div class="chdr">
+    <div class="cav" id="chat-av">AD</div>
+    <div><div class="chn">About Me</div><div class="chs">● Know how can I help you</div></div>
+    <button class="cx" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="cqs"  id="cqs"></div>
+  <div class="cft"><button onclick="resetChat()">↺ Start over</button></div>
+</div>
+
+<script>
+const PROJECTS = [
+  {
+    id:'nutrient',type:'E-learning',medium:'AI-assisted',color:'ochre',
+    isEmbed:false,url:'https://aditid1414.github.io/nutrient-removal/',download:true,image:'Nutrient removal.png',dlFile:'https://raw.githubusercontent.com/AditiD1414/nutrient-removal/main/Nutrient-removal.zip',
+    title:'Treat the Wastewater Right (Part 3)',
+    desc:'Move beyond reactions, terminologies, theories of Tertiary Treatment. The real challenge is identifying what has gone wrong — and where in the plant.',
+    outcome:'Analyse different nutrient removal methods. Evaluate the errors in a given wastewater treatment plant configuration', // TODO
+    features:['Guided investigation of the issues','Bloom Taxonomy of Learning ','Gamified Practice Challenges to unlock new sections', 'Simulated Challenges as per user performance','Performance Summary','Automatic score tracking in' ],
+    audience:'Wastewater engineering, environmental engineering students; SRH Hochschule Heidelberg',
+    duration:'3 Weeks',
+    visChips:[{t:'Claude AI',c:'dvc-ochre'},{t:'Flow AI',c:'dvc-ochre'},{t:'ChatGPT',c:'dvc-d'}],
+    comments:[]
+  },
+  {
+    id:'wwtp',type:'E-learning',medium:'Articulate Storyline',color:'rose',
+    isEmbed:false,url:'https://360.eu.articulate.com/review/content/99f914fe-d834-470f-90ee-29eddd5f4a15/review',download:false,image:'Style 10.png',
+    title:'Treat the Wastewater Right (Part 2)',
+    desc:'An interactive simulation for university engineering students — teaching them to compute and design correctly-sized biological wastewater treatment unit for a given flow.',
+    outcome:'Independently carry out design calculation of aeration basin treatment unit, oxygen requirement, power requirement, Food Mass ratio',
+    features:['360 degree view of wastewater treatment plant','Step-by-step unit sizing calculations','Practice Sessions with new situations and design parameters '],
+    audience:'University engineering students (water & environmental engineering); SRH Hochschule Heidelberg',
+    duration:'8-9 Weeks',
+    visChips:[{t:'Articulate Storyline 360',c:'dvc-rose'},{t:'Blender · 3D',c:'dvc-rose'},{t:'Figma · UX',c:'dvc-rose'},{t:'Gemini AI',c:'dvc-d'}],
+    comments:[]
+  },
+  
+  {
+    id:'riverside',type:'Simulation',medium:'HTML',color:'lav',
+    isEmbed:false,url:'https://aditid1414.github.io/gamified-Wastewater-treatment-design-Level-1/',download:false,image:'Primary.png',
+    title:'Treat the Wastewater Right (Part 1)',
+    desc:'A challenging e-learning module helping you to stick to design parameters in different scenarios.',
+    outcome:'Design Physical treatment unit following environmental design parameters and also manage the wastewater flow',
+    features:['Simulated challenges', 'Real-time situation'],
+    audience:'Environmental engineering students and water sector professionals',
+    duration:'9-10 Weeks',
+    visChips:[{t:'HTML / CSS / JS',c:'dvc-lav'},{t:'Figma · Design',c:'dvc-lav'},{t:'Gemini AI',c:'dvc-d'}],
+    comments:[]
+  },
+  {
+    id:'fire',type:'Job Aid',medium:'HTML',color:'sage',
+    isEmbed:true,url:'',download:true,image:'Fire emergency.png',dlFile:'Office-job aid 1.png',
+    title:'Act Fast to Fire Emergency',
+    desc:' How to use the fire-extinguisher in the event of a fire which is manageable?',
+    outcome:'Confidently manage the small fire following PASS',
+    features:['Easy To follow Steps'],
+    audience:'Employees, Residents, Everyone.',
+    duration:'3-4 Hours',
+    visChips:[{t:'Canva · Design',c:'dvc-sage'},{t:'Gemini AI',c:'dvc-d'}],
+    comments:[]
+  },
+];
+
+const QA = [
+  {q:'About me', a:"I turn complex processes into practice-based digital training that adds value to classroom training. Based in Germany, with over 3 years of experience in e-learning development, I am seeking a full-time role where that approach can make a real difference."},
+  {q:'How can I add value to you?', a:"• Faster delivery without compromising quality — because the right tools, used well, save time at every stage.<br>• Courses that stay challenging — designed so learners face fresh situations on every attempt, never the same path twice.<br>• And before anything is built, honest advice on the right solution compatible with your infrastructure — whether that's a job aid, a full e-learning module, or something more immersive like augmented or virtual reality."},
+  {q:'Relevant Experience', a:"• E-learning development<br>• Augmented Reality, Virtual Reality<br>•  Video editing, design learning oontent to suit learner job demands"},
+  {q:'What tools do I use?', a:"Authoring: Storyline, H5P, Captivate. LMS: Moodle, Brightspace. Design: Blender 3D, Unity 3D, Figma, Framer, Canva. AI: Claude AI, Flow AI, Gemini, ChatGPT. Video: Adobe Premiere, CapCut."},
+  {q:'My takeaways till now', a:"• Coding allows exhaustive flexibility, simulations, and complex process development.<br>• E-learning authoring tools are suitable for less complex processes.<br>• In-built LMS platforms allow easy score tracking but less flexible in designing challenging modules."},
+  {q:'What I ask in return?', a:"One chance to design a project for you. Full effort. No obligation. Only if it works for you, all I ask is a LinkedIn recommendation — nothing more. I currently build with AI-powered coding. Open to e-learning authoring tools — just need access."},
+  {q:'My educational background', a:"• M.Eng. Water Technology (2022, SRH Hochschule Heidelberg)<br>• MBA Power Management (2015, UPES, India)<br>• B.Tech Mechanical Engineering (2012, SHIATS, India)"},
+  {q:'Discuss more?', a:"Click Contact in the top right — I will reply immediately. You can also connect on LinkedIn."},
+];
+
+let currentDetail=0, inDetailView=false;
+
+function showGrid(){
+  inDetailView=false;
+  document.getElementById('view-grid').classList.remove('hidden');
+  document.getElementById('view-detail').classList.add('hidden');
+  document.body.classList.remove('in-detail');
+  document.getElementById('nav-logo').textContent = 'Aditi Das';
+  document.querySelector('nav').classList.remove('scrolled');
+  document.getElementById('nav-counter').style.display='none';
+  document.getElementById('back-btn').style.display='none';
+  document.querySelectorAll('.det-arr').forEach(a=>a.style.display='none');
+  document.getElementById('det-track').style.display='none';
+}
+
+function showDetailById(id){
+  const idx=PROJECTS.findIndex(p=>p.id===id);
+  if(idx!==-1)showDetail(idx);
+}
+
+function showDetail(idx){
+  currentDetail=idx; inDetailView=true;
+  renderDetail(idx);
+  document.getElementById('view-grid').classList.add('hidden');
+  document.getElementById('view-detail').classList.remove('hidden');
+  document.body.classList.add('in-detail');
+  document.getElementById('nav-counter').style.display='';
+  document.getElementById('back-btn').style.display='flex';
+  document.querySelectorAll('.det-arr').forEach(a=>a.style.display='flex');
+  document.getElementById('det-track').style.display='flex';
+  updateDetailUI();
+}
+
+function renderDetail(idx){
+  const p=PROJECTS[idx], c=p.color;
+  document.querySelectorAll('.detail-spotlight').forEach((s,i)=>s.classList.toggle('show',i===idx));
+  document.getElementById('dv-fill').className='dv-fill dv-'+c;
+const dvImg = document.getElementById('dv-img');
+if(p.image){ dvImg.src=p.image; dvImg.style.display='block'; dvImg.style.objectFit='contain'; dvImg.style.objectPosition='center'; }
+else{ dvImg.style.display='none'; }
+  document.getElementById('dvo1').className='dv-orb dvo1 dvo-'+c;
+  document.getElementById('dvo2').className='dv-orb dvo2 dvo-'+c;
+  ['dg1','dg2','dg3'].forEach(id=>{ document.getElementById(id).className='dv-geo '+id+' dg-'+c; });
+  document.getElementById('dv-chips').innerHTML=p.visChips.map(ch=>`<span class="dvc ${ch.c}">${ch.t}</span>`).join('');
+  document.getElementById('dv-type').textContent=p.type+' · '+p.medium;
+  document.getElementById('dc-idx').textContent=`0${idx+1} of 0${PROJECTS.length}`;
+  document.getElementById('dc-title').textContent=p.title;
+  document.getElementById('dc-desc').textContent=p.desc;
+  const oc=document.getElementById('dc-outcome'); oc.className='dc-outcome do-'+c; oc.textContent='→ '+p.outcome;
+  document.getElementById('dc-info').innerHTML=`
+    <div class="di-row">
+      <div class="di-label">Key features</div>
+      <div class="di-features">${p.features.map(f=>`<div class="di-feat di-feat-${c}">${f}</div>`).join('')}</div>
+    </div>
+    <div class="di-row">
+      <div class="di-label">Target audience</div>
+      <div class="di-value">${p.audience}</div>
+    </div>
+    <div class="di-row">
+      <div class="di-label">Time taken to develop</div>
+      <div class="di-value">${p.duration}</div>
+    </div>`;
+  document.getElementById('nc-num').style.color=`var(--${c})`;
+  const fc=p.comments.length;
+  const expBtn = p.url
+    ? `<button class="abtn ab-pri" onclick="${p.isEmbed ? 'openEmbed(\''+p.id+'\',\''+p.title.replace(/'/g,"\\'")+ '\',\''+p.url+'\')' : 'window.open(\''+p.url+'\',\'_blank\')'}">▶ Experience the project</button>`
+    : `<button class="abtn ab-pri" style="opacity:0.45;cursor:default" disabled>▶ Experience the project</button>`;
+  const fbBtn  = `<button class="abtn ab-sec" onclick="openFb('${p.id}')">★ Feedback${fc?' ('+fc+')':''}</button>`;
+  const dlBtn  = p.download ? `<button class="abtn ab-sec" onclick="openDl('${p.id}')">⬇ Download</button>` : '';
+  document.getElementById('dc-actions').innerHTML = expBtn + fbBtn + dlBtn;
+}
+
+function updateDetailUI(){
+  document.querySelectorAll('.det-dot').forEach((d,i)=>d.classList.toggle('a',i===currentDetail));
+  document.getElementById('nc-num').textContent=String(currentDetail+1).padStart(2,'0');
+  document.getElementById('det-prev').disabled=currentDetail===0;
+  document.getElementById('det-next').disabled=currentDetail===PROJECTS.length-1;
+}
+
+function detNav(dir){
+  const next=currentDetail+dir;
+  if(next>=0&&next<PROJECTS.length){
+    const inn=document.getElementById('detail-inner');
+    inn.style.opacity='0'; inn.style.transform=`translateY(${dir>0?'-12px':'12px'})`;
+    setTimeout(()=>{
+      showDetail(next);
+      inn.style.transition='none'; inn.style.opacity='0'; inn.style.transform=`translateY(${dir>0?'12px':'-12px'})`;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{ inn.style.transition='opacity 0.4s ease,transform 0.4s ease'; inn.style.opacity='1'; inn.style.transform='translateY(0)'; }));
+    },200);
+  }
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&inDetailView)showGrid();
+  if(inDetailView){ if(e.key==='ArrowRight')detNav(1); if(e.key==='ArrowLeft')detNav(-1); }
+});
+
+let activeFbId=null;
+function openFb(id){
+  activeFbId=id;
+  const p=PROJECTS.find(x=>x.id===id);
+  document.getElementById('fbp-lbl').textContent=p.title;
+  document.getElementById('fbp-lbl').style.color=`var(--${p.color})`;
+  renderComments(id); resetFbForm();
+  document.getElementById('fb-overlay').classList.add('show');
+}
+function closeFb(){ document.getElementById('fb-overlay').classList.remove('show'); activeFbId=null; }
+function renderComments(id){
+  const p=PROJECTS.find(x=>x.id===id);
+  document.getElementById('clist').innerHTML=p.comments.length
+    ?p.comments.map(c=>`<div class="ci"><div class="ch"><span class="cn">${c.name}</span><span style="color:var(--${p.color});font-size:0.72rem">${'★'.repeat(c.stars)}${'☆'.repeat(5-c.stars)}</span></div><div class="ctxt">${c.text}</div><div class="cdt">${c.date}</div></div>`).join('')
+    :'<div class="nc">No feedback yet — be the first to share your thoughts.</div>';
+}
+function setStar(n){
+  const p=activeFbId?PROJECTS.find(x=>x.id===activeFbId):null;
+  const col=p?`var(--${p.color})`:'var(--ochre)';
+  document.getElementById('fb-stars').dataset.val=n;
+  document.querySelectorAll('#fb-stars span').forEach(s=>{ const v=parseInt(s.dataset.n); s.textContent=v<=n?'★':'☆'; s.style.color=v<=n?col:'var(--faint)'; });
+}
+function resetFbForm(){ setStar(0); document.getElementById('fb-name').value=''; document.getElementById('fb-text').value=''; }
+function postComment(){
+  if(!activeFbId)return;
+  const stars=parseInt(document.getElementById('fb-stars').dataset.val)||0;
+  const name=document.getElementById('fb-name').value.trim()||'Anonymous';
+  const text=document.getElementById('fb-text').value.trim();
+  if(!stars){alert('Please select a star rating.');return;}
+  const date=new Date().toLocaleString('en',{month:'short',year:'numeric'});
+  const p=PROJECTS.find(x=>x.id===activeFbId);
+  p.comments.push({name,stars,text,date});
+  renderComments(activeFbId);
+  if(inDetailView)renderDetail(currentDetail);
+  resetFbForm();
+  fetch('https://formspree.io/f/xeerzdnj',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({project:p.title,reviewer:name,stars,feedback:text,date})
+  }).catch(()=>{});
+}
+
+function openEmbed(id,title,url){
+  document.getElementById('embed-title').textContent=title;
+  document.getElementById('embed-frame').innerHTML=url?`<iframe src="${url}" allowfullscreen></iframe>`:`<div class="embed-ph"><p>Add your project URL to embed it here.</p><code>url: 'https://your-project-url'</code></div>`;
+  document.getElementById('embed-overlay').classList.add('show');
+}
+function closeEmbed(){ document.getElementById('embed-overlay').classList.remove('show'); document.getElementById('embed-frame').innerHTML=''; }
+
+function openDl(id){
+  const p=id?PROJECTS.find(x=>x.id===id):PROJECTS[currentDetail];
+  if(!p||!p.dlFile) return;
+  const a=document.createElement('a');
+  a.href=p.dlFile;
+  a.download='index.html';
+  a.click();
+}
+ 
+function closeDl(){ document.getElementById('dl-overlay').classList.remove('show'); }
+function openContact(){ document.getElementById('contact-overlay').classList.add('show'); }
+function closeContact(){ document.getElementById('contact-overlay').classList.remove('show'); }
+function submitContact(e){
+   e.preventDefault();
+  const name=document.getElementById('cn').value;
+  const email=document.getElementById('ce').value;
+  const org=document.getElementById('co').value;
+  const msg=document.getElementById('cm').value;
+  if(!name||!email||!msg){ alert('Please fill in all fields.'); return; }
+  const blocked=['gmail','yahoo','hotmail','outlook','icloud','gmx','web.de','t-online'];
+  const domain=email.split('@')[1]||'';
+  if(blocked.some(b=>domain.includes(b))){ alert('Please use your company or organisation email address.'); return; }
+  fetch('https://formspree.io/f/xeerzdnj',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,organisation:org,email,message:msg})
+  })
+  .then(r=>r.json())
+  .then(()=>{ document.getElementById('cp-ok').style.display='block'; e.target.querySelector('.cp-sub').textContent='Sent ✓'; e.target.querySelector('.cp-sub').disabled=true; })
+  .catch(()=>{ alert('Something went wrong. Please try again.'); });
+}
+
+let chatOpen=false;
+function toggleChat(){ chatOpen=!chatOpen; document.getElementById('chatbox').classList.toggle('show',chatOpen); if(chatOpen&&!document.getElementById('msgs').children.length)resetChat(); }
+function resetChat(){ askedQs.clear(); document.getElementById('msgs').innerHTML=''; addBot("Hi! I'm Aditi. Click on the desired buttons to know more about me."); renderQs(QA.map(q=>q.q)); }
+function addBot(t){ const el=document.createElement('div'); el.className='cmsg bot'; el.innerHTML=t; const m=document.getElementById('msgs'); m.appendChild(el); m.scrollTop=m.scrollHeight; }
+function addUsr(t){ const el=document.createElement('div'); el.className='cmsg usr'; el.textContent=t; const m=document.getElementById('msgs'); m.appendChild(el); m.scrollTop=m.scrollHeight; }
+const askedQs=new Set();
+
+function renderQs(qs){
+  const cqs=document.getElementById('cqs');
+  cqs.innerHTML='';
+  qs.forEach((q)=>{
+    if(askedQs.has(q)) return;
+    const btn=document.createElement('button');
+    btn.className='cq';
+    btn.textContent=q;
+    btn.onclick=function(){ handleQ(this,q); };
+    cqs.appendChild(btn);
+  });
+}
+
+function handleQ(btn,q){
+  askedQs.add(q);
+  addUsr(q);
+  btn.closest('#cqs').innerHTML='';
+  const ans=QA.find(x=>x.q===q);
+  setTimeout(()=>{
+    if(ans) addBot(ans.a);
+    setTimeout(()=>renderQs(QA.map(x=>x.q)),150);
+  },320);
+}
+function setPhoto(src){
+  document.getElementById('float-avatar').innerHTML=`<img src="${src}" alt="Aditi Das" style="width:130%;height:130%;object-fit:cover;margin:-15%;">`;
+  document.getElementById('chat-av').innerHTML=`<img src="${src}" alt="Aditi Das" style="width:130%;height:130%;object-fit:cover;margin:-15%;">`;
+}
+
+// ── Scroll: solid nav background + logo text swap ──
+document.getElementById('view-grid').addEventListener('scroll', () => {
+  const scrolled = document.getElementById('view-grid').scrollTop > 80;
+  document.querySelector('nav').classList.toggle('scrolled', scrolled);
+  if (!document.body.classList.contains('in-detail')) {
+    document.getElementById('nav-logo').textContent = scrolled ? 'Projects' : 'Aditi Das';
+  }
+});
+
+setPhoto('IMG_2026-2.jpeg')
+showGrid();
+</script>
+</body>
+</html>
